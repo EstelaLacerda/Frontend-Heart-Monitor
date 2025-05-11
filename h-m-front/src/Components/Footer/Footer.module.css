@@ -1,0 +1,11 @@
+.foot {
+    background-color: #000;
+    display: flex;
+    justify-content: center;
+    position: relative;
+    height: 7vh;
+}
+
+.logo {
+    height: 95%;
+}
