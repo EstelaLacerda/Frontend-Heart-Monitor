@@ -1,0 +1,161 @@
+.container {
+    background-color: white;
+    border-radius: 0.5rem;
+    box-shadow: 0 10px 15px -3px rgba(0, 0, 0, 0.1), 0 4px 6px -2px rgba(0, 0, 0, 0.05);
+    padding: 1.5rem;
+    margin-bottom: 2rem;
+    transition: all 0.3s ease;
+  }
+  
+  .container:hover {
+    box-shadow: 0 20px 25px -5px rgba(0, 0, 0, 0.1), 0 10px 10px -5px rgba(0, 0, 0, 0.04);
+    transform: translateY(-2px);
+  }
+  
+  .header {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    margin-bottom: 1rem;
+  }
+  
+  .title {
+    font-size: 1.5rem;
+    font-weight: bold;
+    color: #1f2937;
+    position: relative;
+  }
+  
+  .title::after {
+    content: '';
+    position: absolute;
+    bottom: -8px;
+    left: 0;
+    width: 40px;
+    height: 3px;
+    background-color: #8884d8;
+    border-radius: 2px;
+  }
+  
+  .buttonLive {
+    padding: 0.5rem 1.25rem;
+    border-radius: 0.375rem;
+    font-weight: 500;
+    transition: all 0.2s;
+    border: none;
+    cursor: pointer;
+    display: flex;
+    align-items: center;
+    gap: 0.5rem;
+  }
+  
+  .buttonLive.active {
+    background-color: #10b981;
+    color: white;
+  }
+  
+  .buttonLive.active:hover {
+    background-color: #059669;
+  }
+  
+  .buttonLive.inactive {
+    background-color: #ef4444;
+    color: white;
+  }
+  
+  .buttonLive.inactive:hover {
+    background-color: #dc2626;
+  }
+  
+  .alertContainer {
+    padding: 0.75rem;
+    margin-bottom: 1rem;
+    border-radius: 0.375rem;
+    border-left-width: 4px;
+    animation: fadeIn 0.3s ease-in;
+  }
+  
+  @keyframes fadeIn {
+    from { opacity: 0; transform: translateY(-10px); }
+    to { opacity: 1; transform: translateY(0); }
+  }
+  
+  .alertLow {
+    background-color: #dbeafe;
+    border-color: #3b82f6;
+    color: #1e40af;
+  }
+  
+  .alertHigh {
+    background-color: #fee2e2;
+    border-color: #ef4444;
+    color: #b91c1c;
+  }
+  
+  .alertChange {
+    background-color: #fef3c7;
+    border-color: #f59e0b;
+    color: #b45309;
+  }
+  
+  .chartContainer {
+    height: 16rem;
+    width: 100%;
+    position: relative;
+  }
+  
+  .statsGrid {
+    display: grid;
+    grid-template-columns: repeat(4, 1fr);
+    gap: 1rem;
+    margin-top: 1.5rem;
+  }
+  
+  .statsCard {
+    padding: 1rem;
+    border-radius: 0.5rem;
+    text-align: center;
+    transition: all 0.2s;
+  }
+  
+  .statsCard:hover {
+    transform: translateY(-3px);
+    box-shadow: 0 4px 6px -1px rgba(0, 0, 0, 0.1);
+  }
+  
+  .statsLabel {
+    font-size: 0.875rem;
+    color: #6b7280;
+    margin-bottom: 0.5rem;
+  }
+  
+  .statsValue {
+    font-size: 1.5rem;
+    font-weight: 700;
+  }
+  
+  .footer {
+    margin-top: 1rem;
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+  }
+  
+  .bpmTag {
+    padding: 0.375rem 0.75rem;
+    border-radius: 9999px;
+    font-weight: 600;
+    display: inline-flex;
+    align-items: center;
+    gap: 0.25rem;
+  }
+  
+  .bpmIcon {
+    animation: pulse 1.5s infinite;
+  }
+  
+  @keyframes pulse {
+    0% { opacity: 1; transform: scale(1); }
+    50% { opacity: 0.6; transform: scale(0.95); }
+    100% { opacity: 1; transform: scale(1); }
+  }
