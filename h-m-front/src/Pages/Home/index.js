@@ -11,13 +11,7 @@ export default function Home() {
       <div className={styles.container}>
         <Header />
         <div className={styles.content}>
-          <AllReadings />
-        </div>
-        <div className={styles.content}>
           <HeartRateChart />
-        </div>
-        <div className={styles.content}>
-          <Latest />
         </div>
         <Footer />
       </div>
