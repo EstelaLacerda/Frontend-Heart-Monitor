@@ -12,7 +12,6 @@ import {
   ResponsiveContainer,
   ReferenceLine,
 } from "recharts";
-import "../../index.css";
 
 const MAX_DATA_POINTS = 10;
 
@@ -283,20 +282,20 @@ export default function HeartRateChart() {
   const hasData = hasRealData;
 
   return (
-    <div className={styles.foot}>
+    <div style={{ margin: "40px 40px" }}>
       <div className="w-full p-4 bg-white rounded-lg shadow-lg">
         {/* Cabeçalho com título */}
         <div className="flex justify-between items-center mb-4">
-          <h1 className="text-xl font-bold text-gray-800">
-            Live heart rate monitoring
-          </h1>
+          <h2 className="text-2xl font-bold text-gray-800">
+            Monitoramento Cardíaco
+          </h2>
           <div className="text-sm text-gray-600">
             {hasData
               ? `Mostrando últimos ${Math.min(
                   MAX_DATA_POINTS,
                   dataForChart.filter((item) => item.bpm !== null).length
                 )} registros`
-              : "awaiting data..."}
+              : "Aguardando dados..."}
           </div>
         </div>
 
@@ -323,9 +322,13 @@ export default function HeartRateChart() {
           </div>
         )}
 
+        {/* Gráfico */}
+        <h3 className="text-lg font-semibold text-gray-700 mb-2">
+          Frequência Cardíaca
+        </h3>
         <div
           className="h-64 w-full border border-gray-200 rounded-md overflow-hidden"
-          style={{ height: "300px", paddingTop: "40px" }}
+          style={{ height: "300px" }}
         >
           <ResponsiveContainer width="100%" height="100%">
             <LineChart
@@ -420,6 +423,285 @@ export default function HeartRateChart() {
               />
             </LineChart>
           </ResponsiveContainer>
+        </div>
+
+        {/* Cartões de estatísticas com estilos inline */}
+        <div
+          style={{
+            display: "grid",
+            gridTemplateColumns: "repeat(auto-fit, minmax(200px, 1fr))",
+            gap: "1.5rem",
+            marginTop: "1.5rem",
+          }}
+        >
+          {/* BPM Mínimo */}
+          <div
+            style={{
+              backgroundColor: "white",
+              borderRadius: "0.75rem",
+              boxShadow: "0 4px 6px rgba(0, 0, 0, 0.1)",
+              overflow: "hidden",
+              border: "1px solid #dbeafe",
+            }}
+          >
+            <div
+              style={{
+                display: "flex",
+                alignItems: "center",
+                padding: "1rem",
+              }}
+            >
+              <div
+                style={{
+                  backgroundColor: "#dbeafe",
+                  borderRadius: "9999px",
+                  padding: "0.75rem",
+                  marginRight: "1rem",
+                }}
+              >
+                <svg
+                  xmlns="http://www.w3.org/2000/svg"
+                  style={{
+                    height: "1.5rem",
+                    width: "1.5rem",
+                    color: "#2563eb",
+                  }}
+                  fill="none"
+                  viewBox="0 0 24 24"
+                  stroke="currentColor"
+                >
+                  <path
+                    strokeLinecap="round"
+                    strokeLinejoin="round"
+                    strokeWidth={2}
+                    d="M13 17h8m0 0V9m0 8l-8-8-4 4-6-6"
+                  />
+                </svg>
+              </div>
+              <div>
+                <p
+                  style={{
+                    fontSize: "0.875rem",
+                    fontWeight: "500",
+                    color: "#6b7280",
+                  }}
+                >
+                  BPM Mínimo
+                </p>
+                <div style={{ display: "flex", alignItems: "baseline" }}>
+                  <p
+                    style={{
+                      fontSize: "1.5rem",
+                      fontWeight: "700",
+                      color: "#2563eb",
+                    }}
+                  >
+                    {hasData ? stats.min : "-"}
+                  </p>
+                  <p
+                    style={{
+                      marginLeft: "0.25rem",
+                      fontSize: "0.875rem",
+                      color: "#6b7280",
+                    }}
+                  >
+                    {hasData ? "bpm" : ""}
+                  </p>
+                </div>
+              </div>
+            </div>
+            <div style={{ backgroundColor: "#eff6ff", padding: "0.5rem 1rem" }}>
+              <p style={{ fontSize: "0.75rem", color: "#2563eb" }}>
+                {!hasData
+                  ? "Aguardando dados..."
+                  : stats.min < 40
+                  ? "Abaixo do normal"
+                  : "Dentro do esperado"}
+              </p>
+            </div>
+          </div>
+
+          {/* BPM Médio */}
+          <div
+            style={{
+              backgroundColor: "white",
+              borderRadius: "0.75rem",
+              boxShadow: "0 4px 6px rgba(0, 0, 0, 0.1)",
+              overflow: "hidden",
+              border: "1px solid #dcfce7",
+            }}
+          >
+            <div
+              style={{
+                display: "flex",
+                alignItems: "center",
+                padding: "1rem",
+              }}
+            >
+              <div
+                style={{
+                  backgroundColor: "#dcfce7",
+                  borderRadius: "9999px",
+                  padding: "0.75rem",
+                  marginRight: "1rem",
+                }}
+              >
+                <svg
+                  xmlns="http://www.w3.org/2000/svg"
+                  style={{
+                    height: "1.5rem",
+                    width: "1.5rem",
+                    color: "#10b981",
+                  }}
+                  fill="none"
+                  viewBox="0 0 24 24"
+                  stroke="currentColor"
+                >
+                  <path
+                    strokeLinecap="round"
+                    strokeLinejoin="round"
+                    strokeWidth={2}
+                    d="M13.5 12a1.5 1.5 0 1 1-3 0 1.5 1.5 0 0 1 3 0Z"
+                  />
+                  <path
+                    strokeLinecap="round"
+                    strokeLinejoin="round"
+                    strokeWidth={2}
+                    d="M20.25 10.511c.5 1.874.5 3.104 0 4.978m-1.917-8.432A12.819 12.819 0 0 0 12 4.5a12.819 12.819 0 0 0-6.333 2.557M19.5 10.511v.001m-1.917 4.433c-1.551 1.323-3.637 2.554-5.583 2.555-1.946 0-4.032-1.232-5.583-2.555M6.75 15.489C6.25 13.615 6.25 12.385 6.75 10.511m1.917 8.432A12.819 12.819 0 0 0 12 19.5a12.819 12.819 0 0 0 6.333-2.557M4.5 10.511v.001"
+                  />
+                </svg>
+              </div>
+              <div>
+                <p
+                  style={{
+                    fontSize: "0.875rem",
+                    fontWeight: "500",
+                    color: "#6b7280",
+                  }}
+                >
+                  BPM Médio
+                </p>
+                <div style={{ display: "flex", alignItems: "baseline" }}>
+                  <p
+                    style={{
+                      fontSize: "1.5rem",
+                      fontWeight: "700",
+                      color: "#10b981",
+                    }}
+                  >
+                    {hasData ? stats.avg : "-"}
+                  </p>
+                  <p
+                    style={{
+                      marginLeft: "0.25rem",
+                      fontSize: "0.875rem",
+                      color: "#6b7280",
+                    }}
+                  >
+                    {hasData ? "bpm" : ""}
+                  </p>
+                </div>
+              </div>
+            </div>
+            <div style={{ backgroundColor: "#ecfdf5", padding: "0.5rem 1rem" }}>
+              <p style={{ fontSize: "0.75rem", color: "#10b981" }}>
+                {!hasData
+                  ? "Aguardando dados..."
+                  : stats.avg < 60
+                  ? "Abaixo do normal"
+                  : stats.avg > 100
+                  ? "Acima do normal"
+                  : "Ritmo normal"}
+              </p>
+            </div>
+          </div>
+
+          {/* BPM Máximo */}
+          <div
+            style={{
+              backgroundColor: "white",
+              borderRadius: "0.75rem",
+              boxShadow: "0 4px 6px rgba(0, 0, 0, 0.1)",
+              overflow: "hidden",
+              border: "1px solid #fee2e2",
+            }}
+          >
+            <div
+              style={{
+                display: "flex",
+                alignItems: "center",
+                padding: "1rem",
+              }}
+            >
+              <div
+                style={{
+                  backgroundColor: "#fee2e2",
+                  borderRadius: "9999px",
+                  padding: "0.75rem",
+                  marginRight: "1rem",
+                }}
+              >
+                <svg
+                  xmlns="http://www.w3.org/2000/svg"
+                  style={{
+                    height: "1.5rem",
+                    width: "1.5rem",
+                    color: "#ef4444",
+                  }}
+                  fill="none"
+                  viewBox="0 0 24 24"
+                  stroke="currentColor"
+                >
+                  <path
+                    strokeLinecap="round"
+                    strokeLinejoin="round"
+                    strokeWidth={2}
+                    d="M13 7h8m0 0v8m0-8l-8 8-4-4-6 6"
+                  />
+                </svg>
+              </div>
+              <div>
+                <p
+                  style={{
+                    fontSize: "0.875rem",
+                    fontWeight: "500",
+                    color: "#6b7280",
+                  }}
+                >
+                  BPM Máximo
+                </p>
+                <div style={{ display: "flex", alignItems: "baseline" }}>
+                  <p
+                    style={{
+                      fontSize: "1.5rem",
+                      fontWeight: "700",
+                      color: "#ef4444",
+                    }}
+                  >
+                    {hasData ? stats.max : "-"}
+                  </p>
+                  <p
+                    style={{
+                      marginLeft: "0.25rem",
+                      fontSize: "0.875rem",
+                      color: "#6b7280",
+                    }}
+                  >
+                    {hasData ? "bpm" : ""}
+                  </p>
+                </div>
+              </div>
+            </div>
+            <div style={{ backgroundColor: "#fef2f2", padding: "0.5rem 1rem" }}>
+              <p style={{ fontSize: "0.75rem", color: "#ef4444" }}>
+                {!hasData
+                  ? "Aguardando dados..."
+                  : stats.max > 100
+                  ? "Acima do normal"
+                  : "Dentro do esperado"}
+              </p>
+            </div>
+          </div>
         </div>
       </div>
     </div>
