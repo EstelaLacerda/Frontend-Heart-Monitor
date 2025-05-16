@@ -282,7 +282,7 @@ export default function HeartRateChart() {
   const hasData = hasRealData;
 
   return (
-    <div className={styles.foot}>
+    <div style={{ margin: "40px 40px" }}>
       <div className="w-full p-4 bg-white rounded-lg shadow-lg">
         {/* Cabeçalho com título */}
         <div className="flex justify-between items-center mb-4">
