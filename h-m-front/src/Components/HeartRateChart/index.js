@@ -31,13 +31,28 @@ export default function HeartRateChart() {
   const [loading, setLoading] = useState(true);
   const [error, setError] = useState(null);
   const [firstMount, setFirstMount] = useState(true);
+  const [status, setStatus] = useState(null);
   // Flag para controlar se estamos usando dados reais ou os iniciais vazios
   const [hasRealData, setHasRealData] = useState(false);
+  const [isPaused, setIsPaused] = useState(false);
 
   const limitDataPoints = useCallback((data) => {
     if (!data || data.length <= MAX_DATA_POINTS) return data;
     return data.slice(data.length - MAX_DATA_POINTS);
   }, []);
+
+  const pause = async () => {
+    const response = await Api.toggle();
+    if (response.is_paused){
+      setIsPaused(true);
+    } else {
+      setIsPaused(false);
+    }
+    const updatedStatus = await Api.getStatus();
+    setStatus(updatedStatus);
+    console.log("Status atualizado:", updatedStatus);
+  };
+
 
   const calculateStats = useCallback(
     (data) => {
@@ -101,12 +116,25 @@ export default function HeartRateChart() {
 
   // Inicialização do componente
   useEffect(() => {
-    // Inicializar com dados vazios, mas estruturados
-    setHeartRateData(initialEmptyData);
-    setStats({ min: 0, max: 0, avg: 0, alerts: 0 });
-    setLoading(false);
-    setFirstMount(true);
-    setHasRealData(false);
+    const initialize = async () => {
+      // Inicializar com dados vazios, mas estruturados
+      setHeartRateData(initialEmptyData);
+      setStats({ min: 0, max: 0, avg: 0, alerts: 0 });
+      setLoading(false);
+      setFirstMount(true);
+      setHasRealData(false);
+      const updatedStatus = await Api.getStatus();
+      setStatus(updatedStatus);
+      console.log("Status atualizado:", updatedStatus);
+      console.log("Status inicial:", status);
+      if (updatedStatus.is_paused) {
+        setIsPaused(true);
+      } else {
+        setIsPaused(false);
+      }
+    };
+
+    initialize();
 
     return () => {
       setHeartRateData([]);
@@ -120,6 +148,7 @@ export default function HeartRateChart() {
     console.log("Iniciando conexão SSE...");
 
     const handleNewReading = (reading) => {
+      if (isPaused) return; 
       console.log("Recebido:", reading);
 
       // Se for o evento 'initial_reading' e estamos na primeira montagem, ignoramos
@@ -284,22 +313,39 @@ export default function HeartRateChart() {
   return (
     <div style={{ margin: "40px 40px" }}>
       <div className="w-full p-4 bg-white rounded-lg shadow-lg">
-        {/* Cabeçalho com título */}
-        <div className="flex justify-between items-center mb-4">
-          <h2 className="text-2xl font-bold text-gray-800">
-            Monitoramento Cardíaco
-          </h2>
-          <div className="text-sm text-gray-600">
-            {hasData
-              ? `Mostrando últimos ${Math.min(
-                  MAX_DATA_POINTS,
-                  dataForChart.filter((item) => item.bpm !== null).length
-                )} registros`
-              : "Aguardando dados..."}
+          <div style = {{ display: "flex", justifyContent: "space-between" }}>
+            <h1 className="text-2xl font-bold text-gray-800">
+              Monitoramento Cardíaco
+            </h1>
+            <button style = {{borderRadius: '10px', borderColor: 'white', backgroundColor: 'black', cursor:'pointer', paddingLeft:'20px', paddingRight: '20px'}}onClick={() => pause()}>
+              {isPaused ? (
+                <span style={{color: 'white', fontSize: '1rem'}} >Retomar</span>
+              ) : (
+                <span style={{color: 'white', fontSize: '1rem'}}>Pausar</span>
+              )}
+            </button> 
           </div>
-        </div>
+              <div style = {{marginTop: "1rem", marginBottom: "1rem", fontSize: "1.2rem", color: "#6b7280"}}>
+              {hasData
+                ? `Mostrando últimos ${Math.min(
+              MAX_DATA_POINTS,
+              dataForChart.filter((item) => item.bpm !== null).length
+            )} registros`
+                : "Aguardando dados..."}
+            </div>
+            <div>
+                <div style={{ marginBottom: "1rem", fontSize: "1rem", color: "#6b7280" }}>
+            <p>
+              <span style={{ fontWeight: "bold", color: isPaused ? "#ef4444" : "#10b981" }}>
+                {isPaused ? "Pausado" : "Ativo"}
+              </span>
+            </p>
+            <p>Atualizado em: {new Date(status?.last_updated).toDateString()}</p>
+            <p>Atualizado por: {status?.updated_by || "Desconhecido"}</p>
+                </div>
+            </div>
 
-        {/* Mensagem de erro */}
+          {/* Mensagem de erro */}
         {error && (
           <div className="p-3 mb-4 rounded-md border bg-red-100 border-red-500 text-red-700">
             <p className="font-medium">{error}</p>
@@ -322,13 +368,9 @@ export default function HeartRateChart() {
           </div>
         )}
 
-        {/* Gráfico */}
-        <h3 className="text-lg font-semibold text-gray-700 mb-2">
-          Frequência Cardíaca
-        </h3>
         <div
           className="h-64 w-full border border-gray-200 rounded-md overflow-hidden"
-          style={{ height: "300px" }}
+          style={{ height: "300px", marginTop: "1.5rem" }}
         >
           <ResponsiveContainer width="100%" height="100%">
             <LineChart

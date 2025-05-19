@@ -39,7 +39,6 @@ export default class ApiService {
   static getLatestReadings(count) {
     return this.httpHelper.get(`heartrate/latest/${count}`);
   }
-
   // No ApiService.js, modifique o método streamHeartRate:
   static streamHeartRate(
     onInitialReading,
@@ -104,4 +103,10 @@ export default class ApiService {
     // Retornar o objeto eventSource para permitir fechamento posterior
     return eventSource;
   }
+    static getStatus() {
+      return this.httpHelper.get("measurement/status");
+    }
+    static toggle(){
+      return this.httpHelper.post("measurement/toggle");
+    }
 }
