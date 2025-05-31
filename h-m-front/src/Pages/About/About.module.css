@@ -1,0 +1,95 @@
+@import url('https://fonts.googleapis.com/css2?family=Press+Start+2P&display=swap');
+
+.container {
+    font-family: 'Press Start 2P', cursive;
+    background-color: #333;
+    color: #FFF;
+}
+
+.content {
+    min-height: 83vh;
+    display: flex;
+    flex-direction: column;
+    gap: 3rem;
+    justify-content: center;
+    text-align: center;
+    align-items: center;
+}
+
+.title {
+    font-size: 7vh;
+    font-weight: 900;
+}
+
+.blocks {
+    width: 100%;
+    display: flex;
+    flex-wrap: wrap;
+    justify-content: space-evenly;
+}
+
+.block {
+    background-color: #555;
+    width: 30%;
+    min-width: 250px;
+    height: auto;
+    min-height: 45vh;
+    display: flex;
+    flex-direction: column;
+    justify-content: center;
+    align-items: center;
+    text-align: center;
+    border-radius: 50px;
+    padding: 25px;
+    margin-bottom: 20px;
+}
+
+.blockTitle {
+    font-size: 2.5vh;
+    font-weight: 900;
+    text-decoration: underline;
+}
+
+.blockText {
+    font-size: 2vh;
+    margin-top: 20px
+}
+
+.block ul {
+    list-style: none;
+    text-align: justify;
+}
+
+.block ul li {
+    padding-top: 7px;
+    padding-bottom: 7px;
+}
+
+.block a {
+    color: #fff;
+    text-decoration: none;
+    position: relative;
+    transition: color 0.2s ease-in-out;
+}
+
+.block a::after {
+    content: '';
+    position: absolute;
+    width: 100%;
+    height: 2px;
+    background: #ff0000;
+    left: 0;
+    bottom: -5px;
+    transform: scaleX(0);
+    transform-origin: left;
+    transition: transform 0.3s ease-in-out;
+}
+
+.block a:hover {
+    cursor: pointer;
+    color: #ff0000
+}
+
+.block a:hover::after {
+    transform: scaleX(1);
+}

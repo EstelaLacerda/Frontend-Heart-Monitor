@@ -13,7 +13,7 @@ export default function Header() {
                 </div>
                 <div className={styles.rightSide}>
                     <span className={styles.links} onClick={() => navigate('/')}>Início</span>
-                    <span className={styles.links} onClick={() => navigate('/sobre')}>Sobre</span>
+                    <span className={styles.links} onClick={() => navigate('/about')}>Sobre</span>
                 </div>
             </div>
         </div>
